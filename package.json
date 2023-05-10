@@ -1,0 +1,20 @@
+{
+  "name": "yourpet-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hakkarian/yourpet-backend.git"
+  },
+  "keywords": [],
+  "author": "theola",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hakkarian/yourpet-backend/issues"
+  },
+  "homepage": "https://github.com/Hakkarian/yourpet-backend#readme"
+}
