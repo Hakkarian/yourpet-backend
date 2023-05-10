@@ -1,8 +1,8 @@
 const express = require("express");
 const userRouter = express.Router();
 
-const { userMiddlewares } = require("../../middlewares");
-const { userController } = require("../../controllers");
+const { userMiddlewares } = require("../middlewares");
+const { userController } = require("../controllers");
 
 userRouter
   .route("/auth/register")

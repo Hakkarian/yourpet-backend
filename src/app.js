@@ -6,8 +6,8 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 // const swaggerJsDoc = require("./docs/swagger.json");
-const userRouter = require("./routes/api/userRouter");
-// const noticesRouter = require("./routes/api/noticesRouter");
+const userRouter = require("./routes/userRouter");
+// const noticesRouter = require("./routes/noticesRouter");
 
 const app = express();
 
