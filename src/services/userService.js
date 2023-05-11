@@ -2,9 +2,9 @@ const User = require("../models/userModel");
 const { signToken } = require("../utils");
 
 exports.register = async (body) => {
-  const newUser = await User.create({ ...body });
+  const user = await User.create({ ...body });
 
-  return newUser;
+  return user;
 };
 
 exports.login = async (body) => {
@@ -34,7 +34,7 @@ exports.current = async (currentUser) => {
 
 exports.updateUserInfo = async (id, body) => {
   const user = await User.findByIdAndUpdate(id, body, { new: true }).select(
-    "-password -token -__v"
+    "-password -__v"
   );
 
   return user;
