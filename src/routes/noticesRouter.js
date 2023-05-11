@@ -1,10 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-// const { noticesControllers } = require("../../controllers");
-// const { noticesMiddlewares, userMiddlewares } = require("../../middlewares");
 const { validateBody } = require("../utils/validateBody");
-const { uploadCloud } = require("../middlewares");
+// const { uploadCloud } = require("../middlewares");
 const {
   createNoticeSchema,
 } = require("../utils/validation/noticesValidationSchemas");
