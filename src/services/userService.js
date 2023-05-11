@@ -4,10 +4,6 @@ const { signToken } = require("../utils");
 exports.register = async (body) => {
   const user = await User.create({ ...body });
 
-  const token = signToken(user._id);
-  user.token = token;
-  await user.save();
-
   return user;
 };
 

@@ -3,13 +3,12 @@ const { userService } = require("../services");
 const cloudinary = require("cloudinary").v2;
 
 exports.registerUser = catchAsync(async (req, res, next) => {
-  const { email, _id: userId, token } = await userService.register(req.body);
+  const { email, _id: userId } = await userService.register(req.body);
 
   res.status(201).json({
     user: {
       email,
       userId,
-      token,
     },
   });
 });
