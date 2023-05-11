@@ -1,4 +1,4 @@
-const noticesService = require("./noticesServices");
+const noticesService = require("./noticesService");
 const userService = require("./userService");
 
 module.exports = {

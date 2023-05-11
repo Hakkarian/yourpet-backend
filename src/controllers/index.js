@@ -1,7 +1,7 @@
-// const noticesControllers = require("./noticesControllers");
+const noticesController = require("./noticesController");
 const userController = require("./userController");
 
 module.exports = {
-  // noticesControllers,
+  noticesController,
   userController,
 };
