@@ -3,12 +3,13 @@ const { userService } = require("../services");
 const cloudinary = require("cloudinary").v2;
 
 exports.registerUser = catchAsync(async (req, res, next) => {
-  const { email, _id: userId } = await userService.register(req.body);
+  const { email, _id: userId, token } = await userService.register(req.body);
 
   res.status(201).json({
     user: {
       email,
       userId,
+      token,
     },
   });
 });
@@ -17,10 +18,10 @@ exports.loginUser = catchAsync(async (req, res, next) => {
   const { email, _id: userId, token } = await userService.login(req.body);
 
   res.status(200).json({
-    token,
     user: {
       email,
       userId,
+      token,
     },
   });
 });
@@ -39,6 +40,7 @@ exports.currentUser = catchAsync(async (req, res, next) => {
     birthday,
     city,
     _id: userId,
+    token,
   } = await userService.current(req.user);
 
   res.status(200).json({
@@ -49,6 +51,7 @@ exports.currentUser = catchAsync(async (req, res, next) => {
       birthday,
       city,
       userId,
+      token,
     },
   });
 });
