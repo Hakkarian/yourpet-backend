@@ -40,7 +40,7 @@ const schema = new Schema(
       default: "sell",
     },
     comment: { type: String, min: 8, max: 120, default: "" },
-    avatarURL: { type: String, required: false },
+    photo: { type: String, required: false },
 
     favorite: {
       type: Boolean,

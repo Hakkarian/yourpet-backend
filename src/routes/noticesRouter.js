@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const { validateBody } = require("../utils/validateBody");
-// const { uploadCloud } = require("../middlewares");
+const { uploadCloud } = require("../middlewares");
 const {
   createNoticeSchema,
 } = require("../utils/validation/noticesValidationSchemas");
@@ -15,7 +15,7 @@ router.get("/", getNotices);
 
 router.post(
   "/",
-  // uploadCloud.single("avatars"),
+  uploadCloud.single("photo"),
   validateBody(createNoticeSchema),
   createNotice
 );

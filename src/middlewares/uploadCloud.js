@@ -13,7 +13,7 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  folder: "avatars",
+  folder: "photo",
   allowedFormats: ["jpg", "png", "gif", "jpeg"],
   filename: (req, file, cb) => {
     cb(null, file.originalname);
@@ -32,4 +32,4 @@ const uploadCloud = multer({
   limits: { fileSize: 3 * 1024 * 1024 },
 });
 
-module.require = { uploadCloud };
+module.exports = { uploadCloud };
