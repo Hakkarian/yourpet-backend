@@ -1,7 +1,11 @@
 const userMiddlewares = require("./userMiddlewares");
-const noticesMiddlewares = require("./noticesMiddlewares");
+const { uploadCloud } = require("./uploadCloud");
+const { errorHandler } = require("./errorHandler");
+const { notFoundHandlerError } = require("./notFoundHandlerError");
 
 module.exports = {
   userMiddlewares,
-  noticesMiddlewares,
+  uploadCloud,
+  errorHandler,
+  notFoundHandlerError,
 };
