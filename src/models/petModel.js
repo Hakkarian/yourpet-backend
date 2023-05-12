@@ -16,6 +16,7 @@ const petSchema = new Schema({
   },
   photo: {
     type: String,
+    required: [true, "Photo is required"],
     default: null,
   },
   comments: {
@@ -34,7 +35,6 @@ const petJoiSchema = Joi.object({
   name: Joi.string().min(2).max(16).required(),
   birthday: Joi.date().min("2000-01-01").max(Date.now()).iso().required(),
   breed: Joi.string().min(2).max(16).required(),
-  photo: Joi.string(),
   comments: Joi.string().min(18).max(120),
 });
 
