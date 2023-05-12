@@ -1,5 +1,5 @@
-const joiRegex = require("./joiRegex");
+const regExp = require("./RegExp");
 
 module.exports = {
-  joiRegex,
+  regExp,
 };
