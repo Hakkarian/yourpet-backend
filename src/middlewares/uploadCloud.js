@@ -1,7 +1,7 @@
 // const Notice = require("../models/noticeModel");
 const cloudinary = require("cloudinary").v2;
-const multer = require("multer");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const multer = require("multer");
 
 const { AppError } = require("../utils");
 
@@ -13,14 +13,14 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  folder: "photo",
-  allowedFormats: ["jpg", "png", "gif", "jpeg"],
+  folder: "avatars",
+  allowedFormats: ["jpg", "png", "jpeg"],
   filename: (req, file, cb) => {
     cb(null, file.originalname);
   },
 });
 
-const fileFilter = (req, file, cb) => {
+const fileFilter = async (req, file, cb) => {
   file.mimetype.startsWith("image")
     ? cb(null, true)
     : cb(new AppError(400, "Downloaded file must be image type"), false);
@@ -29,7 +29,7 @@ const fileFilter = (req, file, cb) => {
 const uploadCloud = multer({
   storage,
   fileFilter,
-  limits: { fileSize: 3 * 1024 * 1024 },
+  // limits: { fileSize: 3 * 1024 * 1024 },
 });
 
 module.exports = { uploadCloud };

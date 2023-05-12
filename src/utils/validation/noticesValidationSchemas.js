@@ -6,6 +6,9 @@ const location = regExp.LOCATION;
 const birthday = regExp.BIRTHDAY_REG_EXP;
 
 const createNoticeSchema = Joi.object({
+  category: Joi.string()
+    .valid("my-pet", "sell", "lost-found", "for-free")
+    .required(),
   title: Joi.string().required(),
   name: Joi.string().required(),
   birthday: Joi.string().pattern(birthday).required(),
@@ -13,11 +16,9 @@ const createNoticeSchema = Joi.object({
   sex: Joi.string().valid("female", "male").required(),
   location: Joi.string().pattern(location).required(),
   price: Joi.number(),
-  category: Joi.string()
-    .valid("my-pet", "sell", "lost-found", "for-free")
-    .required(),
   comment: Joi.string().required(),
   photo: Joi.string(),
+  favorite: Joi.boolean(),
 });
 
 // const updateTaskValidationSchema = Joi.object()
