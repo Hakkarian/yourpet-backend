@@ -12,7 +12,7 @@ const authScheme = new Schema({
     type: String,
     required: [true, "Password is required"],
   },
-  avatarURL: String,
+  avatar: String,
   name: {
     type: String,
     default: null,

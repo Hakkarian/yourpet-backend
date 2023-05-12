@@ -65,7 +65,7 @@ exports.updateUserInfo = catchAsync(async (req, res, next) => {
     const fileName = path.split("/");
     const length = fileName.length;
 
-    body.avatarURL = cloudinary.url(fileName[length - 1], {
+    body.avatar = cloudinary.url(fileName[length - 1], {
       width: 200,
       height: 200,
       gravity: "faces",
