@@ -1,7 +1,6 @@
 const express = require("express");
-const noticesRouter = express.Router();
+const router = express.Router();
 
-// const { noticesController } = require("../../controllers");
 // const { noticesMiddlewares, userMiddlewares } = require("../../middlewares");
 const { validateBody } = require("../utils/validateBody");
 const { uploadCloud, userMiddlewares } = require("../middlewares");
@@ -9,15 +8,12 @@ const { uploadCloud, userMiddlewares } = require("../middlewares");
 const {
   createNoticeSchema,
 } = require("../utils/validation/noticesValidationSchemas");
-const {
-  getNotices,
-  createNotice,
-} = require("../controllers/noticesControllers");
+const { getNotices, createNotice } = require("../controllers");
 router.get("/", getNotices);
 router.post(
-    "/",
-    userMiddlewares.protectRoute,
-  // uploadCloud.single("avatars"),
+  "/",
+  userMiddlewares.protectRoute,
+  // uploadCloud.single("photo"),
   validateBody(createNoticeSchema),
   createNotice
 );

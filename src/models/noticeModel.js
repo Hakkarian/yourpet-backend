@@ -37,6 +37,7 @@ const schema = new Schema(
       required: true,
       default: "",
     },
+    locatiom: { type: String, match: location, required: true },
     price: { type: Number, default: 0 },
     comment: { type: String, min: 8, max: 120, default: "" },
     photo: { type: String, required: true },

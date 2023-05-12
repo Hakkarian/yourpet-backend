@@ -26,7 +26,7 @@ let createNotice = async (req, res, next) => {
     quality: "auto",
     fetch_format: "jpg",
   });
-
+  console.log("req.file---->", req.file.path);
   const data = !!req.file
     ? { photo: req.file.path, owner, ...noticeBody }
     : { owner, ...noticeBody };
