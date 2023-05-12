@@ -4,7 +4,7 @@ const noticesRouter = express.Router();
 // const { noticesController } = require("../../controllers");
 // const { noticesMiddlewares, userMiddlewares } = require("../../middlewares");
 const { validateBody } = require("../utils/validateBody");
-const { uploadCloud } = require("../middlewares");
+const { uploadCloud, userMiddlewares } = require("../middlewares");
 
 const {
   createNoticeSchema,
@@ -15,7 +15,8 @@ const {
 } = require("../controllers/noticesControllers");
 router.get("/", getNotices);
 router.post(
-  "/",
+    "/",
+    userMiddlewares.protectRoute,
   // uploadCloud.single("avatars"),
   validateBody(createNoticeSchema),
   createNotice
