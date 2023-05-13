@@ -1,30 +1,36 @@
 const Joi = require("joi");
 
-const { regExp } = require("../../constants");
+const { regExp } = require("../constants");
 
 const location = regExp.LOCATION;
-const birthday = regExp.BIRTHDAY_REG_EXP;
 
 const createNoticeSchema = Joi.object({
-  category: Joi.string()
-    .valid("my-pet", "sell", "lost-found", "for-free")
-    .required(),
-  title: Joi.string().required(),
-  name: Joi.string().required(),
-  birthday: Joi.string().pattern(birthday).required(),
-  breed: Joi.string().required(),
-  avatarURL: Joi.string(),
-  sex: Joi.string().valid("female", "male").required(),
-  location: Joi.string().pattern(location).required(),
+  category: Joi.string().valid("sell", "lost-found", "for-free").required(),
+  title: Joi.string().min(2).max(48).required().messages({
+    "any.required": "Fill  in the field",
+    "string.empty": "Title cannot be an empty field",
+  }),
+  name: Joi.string().min(2).max(16).required().messages({
+    "any.required": "Fill  in the field",
+    "string.empty": "Name cannot be an empty field",
+  }),
+  birthday: Joi.date().required(),
+  breed: Joi.string().min(2).max(16).required().messages({
+    "any.required": "Fill  in the field",
+    "string.empty": "Breed cannot be an empty field",
+  }),
+  sex: Joi.string().valid("female", "male").required().messages({
+    "any.required": "Fill  in the field",
+    "string.empty": "Sex cannot be an empty field",
+  }),
+  location: Joi.string().pattern(location).required().messages({
+    "any.required": "Fill  in the field",
+    "string.empty": "Location cannot be an empty field",
+  }),
   price: Joi.number(),
   comments: Joi.string().required(),
+  favorite: Joi.array(),
+  photo: Joi.string(),
 });
-
-// const updateTaskValidationSchema = Joi.object()
-//   .keys({
-//     title: createTaskSchema.extract("title").optional(),
-//     completed: createTaskSchema.extract("completed").optional(),
-//   })
-//   .or("title", "completed");
 
 module.exports = { createNoticeSchema };

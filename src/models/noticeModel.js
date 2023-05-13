@@ -1,12 +1,11 @@
 const { Schema, model } = require("mongoose");
 
-const { errorHandler } = require("../middlewares");
-const { AppError } = require("../utils");
+const { HttpError } = require("../middlewares");
 const { regExp } = require("../constants");
 
 const location = regExp.LOCATION;
-const birthday = regExp.BIRTHDAY_REG_EXP;
-const categoryList = ["my-pet", "sell", "lost-found", "for-free"];
+
+const categoryList = ["sell", "lost-found", "for-free"];
 const gender = ["female", "male"];
 
 const schema = new Schema(
@@ -19,6 +18,8 @@ const schema = new Schema(
     },
     title: {
       type: String,
+      min: 2,
+      max: 16,
       default: "What a cute  pet",
       required: [true, "title is required"],
     },
@@ -29,7 +30,7 @@ const schema = new Schema(
       default: "Here's your pet's name",
       required: [true, "name is required"],
     },
-    birthday: { type: String, match: birthday, required: true },
+    birthday: { type: Date, required: true },
     breed: { type: String, min: 2, max: 16, required: true, default: "" },
     sex: {
       type: String,
@@ -37,36 +38,37 @@ const schema = new Schema(
       required: true,
       default: "",
     },
-    locatiom: { type: String, match: location, required: true },
+    location: { type: String, match: location, required: true },
     price: { type: Number, default: 0 },
     comment: { type: String, min: 8, max: 120, default: "" },
+    favorite: [],
     photo: { type: String, required: true },
-
-    favorite: {
-      type: Boolean,
-      default: false,
-    },
     owner: {
       type: Schema.Types.ObjectId,
-      ref: "user",
+      ref: "users",
       require: true,
     },
+
+    // favorite: {
+    //   type: Boolean,
+    //   default: false,
+    // },
   },
   { versionKey: false, timestamps: true }
 );
 
-schema.pre("save", async function (next) {
+schema.pre("save", async function (error) {
   const { category, price } = this;
   if (category === "sell" && price === 0) {
-    console.log("req--->", "222");
-    next();
+    throw HttpError(400, error.message);
   }
 
   if (category === "for-free" && price > 0) {
-    console.log("res--->", "111");
+    throw HttpError(400, error.message);
   }
 });
+schema.post("save", HttpError);
 
-const Notice = model("notices", schema);
+const Notice = model("notice", schema);
 
 module.exports = Notice;

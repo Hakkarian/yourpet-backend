@@ -1,15 +1,10 @@
 const cloudinary = require("cloudinary").v2;
 
-const Notice = require("../models/noticeModel");
-const { catchAsync } = require("../utils");
+const Notice = require("../../models/noticeModel");
+const { catchAsync } = require("../../utils");
 
-let getNotices = async (req, res, next) => {
-  const notices = await Notice.find();
-  res.status(200).json(notices);
-};
-
-getNotices = catchAsync(getNotices);
-
+// створити ендпоінт для додавання оголошень відповідно до обраної категорії
+// post("/")
 let createNotice = async (req, res, next) => {
   console.log("req.user---->", req.user);
 
@@ -27,13 +22,19 @@ let createNotice = async (req, res, next) => {
     fetch_format: "jpg",
   });
   console.log("req.file---->", req.file.path);
-  const data = !!req.file
-    ? { photo: req.file.path, owner, ...noticeBody }
-    : { owner, ...noticeBody };
+  const data = !req.file
+    ? {
+        ...noticeBody,
+        photo: req.file.path,
+        price: Number(req.body.price),
+        owner,
+      }
+    : { ...noticeBody, owner };
 
   const createdNotice = await Notice.create(data);
+  console.log("createdNotice---->", createdNotice);
   res.status(200).json(createdNotice);
 };
 createNotice = catchAsync(createNotice);
 
-module.exports = { getNotices, createNotice };
+module.exports = { createNotice };

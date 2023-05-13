@@ -33,6 +33,10 @@ const authScheme = new Schema({
     type: String,
     default: null,
   },
+  // favorite: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "notice",
+  // },
 });
 
 authScheme.pre("save", async function (next) {

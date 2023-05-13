@@ -1,6 +1,7 @@
 const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const multer = require("multer");
+
 const { AppError } = require("../utils");
 
 cloudinary.config({
@@ -30,4 +31,4 @@ const uploadCloud = multer({
   limits: { fileSize: 3 * 1024 * 1024 },
 });
 
-module.require = { uploadCloud };
+module.exports = { uploadCloud };
