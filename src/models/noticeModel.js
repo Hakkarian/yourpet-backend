@@ -1,71 +1,73 @@
 const { Schema, model } = require("mongoose");
 
-const { errorHandler } = require("../middlewares");
-const { AppError } = require("../utils");
-const { regExp } = require("../constants");
-
-const location = regExp.LOCATION;
-const birthday = regExp.BIRTHDAY_REG_EXP;
-const categoryList = ["my-pet", "sell", "lost-found", "for-free"];
-const gender = ["female", "male"];
-
-const schema = new Schema(
+const noticeSchema = new Schema(
   {
     category: {
       type: String,
-      enum: categoryList,
-      required: true,
+      enum: ["sell", "lost-found", "for-free"],
+      required: [true, "Category is required"],
+      description: "Notice categories",
       default: "sell",
     },
     title: {
       type: String,
-      default: "What a cute  pet",
-      required: [true, "title is required"],
+      min: 2,
+      max: 48,
+      required: [true, "Title is required"],
     },
     name: {
       type: String,
+      required: [true, "Name is required"],
       min: 2,
       max: 16,
-      default: "Here's your pet's name",
-      required: [true, "name is required"],
+      description: "Notice name in en",
     },
-    birthday: { type: String, match: birthday, required: true },
-    breed: { type: String, min: 2, max: 16, required: true, default: "" },
+    birthdate: {
+      type: Date,
+      required: [true, "Birth date is required"],
+      description: "Notice birth date",
+    },
+    breed: {
+      type: String,
+      min: 2,
+      max: 24,
+      required: [true, "Breed is required"],
+    },
     sex: {
       type: String,
-      enum: gender,
-      required: true,
-      default: "",
+      enum: ["male", "female"],
+      required: [true, "Sex is required"],
+      default: "male",
     },
-    price: { type: Number, default: 0 },
-    comment: { type: String, min: 8, max: 120, default: "" },
-    photo: { type: String, required: true },
-
-    favorite: {
-      type: Boolean,
-      default: false,
+    location: {
+      type: String,
+      min: 2,
+      max: 36,
+    },
+    comments: {
+      type: String,
+      min: 8,
+      max: 120,
+    },
+    price: {
+      type: Number,
+      default: 0,
+      description: "Notice price",
+    },
+    favorite: [],
+    photo: {
+      type: String,
+      required: [true, "Photo is required"],
+      default: null,
     },
     owner: {
       type: Schema.Types.ObjectId,
-      ref: "user",
-      require: true,
+      ref: "users",
     },
   },
   { versionKey: false, timestamps: true }
 );
 
-schema.pre("save", async function (next) {
-  const { category, price } = this;
-  if (category === "sell" && price === 0) {
-    console.log("req--->", "222");
-    next();
-  }
-
-  if (category === "for-free" && price > 0) {
-    console.log("res--->", "111");
-  }
-});
-
-const Notice = model("notices", schema);
+const Notice = model("notice", noticeSchema);
 
 module.exports = Notice;

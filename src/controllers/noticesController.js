@@ -1,39 +1,189 @@
+const { catchAsync } = require("../utils");
+const { noticesService } = require("../services");
 const cloudinary = require("cloudinary").v2;
 
-const Notice = require("../models/noticeModel");
-const { catchAsync } = require("../utils");
+exports.addOwnNotice = catchAsync(async (req, res) => {
+  const { _id: userId } = req.user;
+  const { body, file } = req;
 
-let getNotices = async (req, res, next) => {
-  const notices = await Notice.find();
-  res.status(200).json(notices);
-};
+  if (file) {
+    const { path } = req.file;
 
-getNotices = catchAsync(getNotices);
+    const fileName = path.split("/");
+    const length = fileName.length;
 
-let createNotice = async (req, res, next) => {
-  console.log("req.user---->", req.user);
+    body.photo = cloudinary.url(fileName[length - 1], {
+      width: 200,
+      height: 200,
+      gravity: "faces",
+      crop: "fill",
+      quality: "auto",
+      fetch_format: "jpg",
+    });
+  }
 
-  const owner = req.user.id;
-  const noticeBody = req.body;
-  const fileName = req.file.path.split("/");
-  const length = fileName.length;
+  const notice = await noticesService.addOwnNotice(userId, body);
 
-  noticeBody.photo = cloudinary.url(fileName[length - 1], {
-    width: 300,
-    height: 300,
-    gravity: "faces",
-    crop: "fill",
-    quality: "auto",
-    fetch_format: "jpg",
+  res.status(200).json({ notice });
+});
+
+exports.addNoticeToFavorite = catchAsync(async (req, res, next) => {
+  const { _id: userId } = req.user;
+  const { id: noticeId } = req.params;
+
+  const notice = await noticesService.addNoticeToFavorite(userId, noticeId);
+
+  res.status(200).json({
+    userId: userId,
+    noticeId: notice._id,
+  });
+});
+
+exports.removeNoticeFromFavorite = catchAsync(async (req, res, next) => {
+  const { _id: userId } = req.user;
+  const { id: noticeId } = req.params;
+
+  await noticesService.removeNoticeFromFavorite(userId, noticeId);
+
+  res.status(200).json({ message: "Notices was deleted from favorites" });
+});
+
+exports.removeOwnNotice = catchAsync(async (req, res, next) => {
+  const { _id: userId } = req.user;
+
+  const { id: noticeId } = req.params;
+
+  await noticesService.removeOwnNotice(userId, noticeId);
+
+  res.status(200).json({ message: "Notice was deleted" });
+});
+
+exports.listNoticesByCategory = catchAsync(async (req, res, next) => {
+  const { category } = req.params;
+  let { page = 1, limit = 12 } = req.query;
+
+  page = +page;
+  limit = +limit;
+
+  limit = limit > 12 ? 12 : limit;
+  const skip = (page - 1) * limit;
+
+  const notices = await noticesService.listNoticesByCategory(category, {
+    skip,
+    limit,
   });
 
-  const data = !!req.file
-    ? { photo: req.file.path, owner, ...noticeBody }
-    : { owner, ...noticeBody };
+  res
+    .status(200)
+    .json({ notices, page, per_page: limit, total: notices.length });
+});
 
-  const createdNotice = await Notice.create(data);
-  res.status(200).json(createdNotice);
-};
-createNotice = catchAsync(createNotice);
+exports.getNoticeById = catchAsync(async (req, res) => {
+  const { id: noticeId } = req.params;
 
-module.exports = { getNotices, createNotice };
+  const notice = await noticesService.getNoticeById(noticeId);
+
+  res.status(200).json({ notice });
+});
+
+exports.listUserOwnNotices = catchAsync(async (req, res) => {
+  const { _id: userId } = req.user;
+  let { page = 1, limit = 12 } = req.query;
+
+  page = +page;
+  limit = +limit;
+
+  limit = limit > 12 ? 12 : limit;
+  const skip = (page - 1) * limit;
+
+  const notices = await noticesService.listUserOwnNotices(userId, {
+    skip,
+    limit,
+  });
+
+  res
+    .status(200)
+    .json({ notices, page, per_page: limit, total: notices.length });
+});
+
+exports.listFavoriteNotices = catchAsync(async (req, res) => {
+  const { _id: userId } = req.user;
+  let { page = 1, limit = 12 } = req.query;
+
+  page = +page;
+  limit = +limit;
+
+  limit = limit > 12 ? 12 : limit;
+
+  const skip = (page - 1) * limit;
+
+  const notices = await noticesService.listFavoriteNotices(userId, {
+    skip,
+    limit,
+  });
+
+  res
+    .status(200)
+    .json({ notices, page, per_page: limit, total: notices.length });
+});
+
+exports.searcNoticeByTitle = catchAsync(async (req, res) => {
+  let { search = "", page = 1, limit = 12 } = req.query;
+  const { category } = req.params;
+
+  page = +page;
+  limit = +limit;
+
+  limit = limit > 12 ? 12 : limit;
+
+  const skip = (page - 1) * limit;
+
+  const notices = await noticesService.searcNoticeByTitle(
+    { search, category },
+    { skip, limit }
+  );
+
+  res
+    .status(200)
+    .json({ notices, page, per_page: limit, total: notices.length });
+});
+
+exports.searchFavoriteNoticeByTitle = catchAsync(async (req, res) => {
+  let { page = 1, limit = 12, search = "" } = req.query;
+  const { _id: userId } = req.user;
+
+  page = +page;
+  limit = +limit;
+
+  limit = limit > 12 ? 12 : limit;
+  const skip = (page - 1) * limit;
+
+  const notices = await noticesService.searchFavoriteNoticeByTitle(
+    { search, userId },
+    { skip, limit }
+  );
+
+  res
+    .status(200)
+    .json({ notices, page, per_page: limit, total: notices.length });
+});
+
+exports.searchUserNoticeByTitle = catchAsync(async (req, res) => {
+  const { _id: userId } = req.user;
+  let { page = 1, limit = 12, search = "" } = req.query;
+
+  page = +page;
+  limit = +limit;
+
+  limit = limit > 12 ? 12 : limit;
+  const skip = (page - 1) * limit;
+
+  const notices = await noticesService.searchUserNoticeByTitle(
+    { search, userId },
+    { skip, limit }
+  );
+
+  res
+    .status(200)
+    .json({ notices, page, per_page: limit, total: notices.length });
+});

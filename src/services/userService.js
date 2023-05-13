@@ -1,41 +1,61 @@
-const User = require("../models/userModel");
+const { User } = require("../models");
 const { signToken } = require("../utils");
 
 exports.register = async (body) => {
-  const user = await User.create({ ...body });
+  try {
+    const user = await User.create({ ...body });
 
-  return user;
+    return user;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 exports.login = async (body) => {
-  const { email } = body;
-  const user = await User.findOne({ email });
+  try {
+    const { email } = body;
+    const user = await User.findOne({ email });
 
-  const token = signToken(user._id);
+    const token = signToken(user._id);
 
-  user.token = token;
-  await user.save();
+    user.token = token;
+    await user.save();
 
-  return user;
+    return user;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 exports.logout = async (currentUser) => {
-  const user = currentUser;
+  try {
+    const user = currentUser;
 
-  user.token = null;
-  await user.save();
+    user.token = null;
+    await user.save();
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 exports.current = async (currentUser) => {
-  const user = currentUser;
+  try {
+    const user = currentUser;
 
-  return user;
+    return user;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 exports.updateUserInfo = async (id, body) => {
-  const user = await User.findByIdAndUpdate(id, body, { new: true }).select(
-    "-password -__v"
-  );
+  try {
+    const user = await User.findByIdAndUpdate(id, body, { new: true }).select(
+      "-password -__v"
+    );
 
-  return user;
+    return user;
+  } catch (error) {
+    console.log(error);
+  }
 };

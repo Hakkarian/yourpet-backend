@@ -3,6 +3,7 @@ const userRouter = express.Router();
 
 const { userMiddlewares } = require("../middlewares");
 const { userController } = require("../controllers");
+const { uploadCloud } = require("../helpers");
 
 userRouter
   .route("/auth/register")
@@ -26,7 +27,7 @@ userRouter
     [
       userMiddlewares.checkCurrentUser,
       userMiddlewares.checkUserInfo,
-      userMiddlewares.uploadCloud.single("avatar"),
+      uploadCloud.single("avatar"),
     ],
     userController.updateUserInfo
   );

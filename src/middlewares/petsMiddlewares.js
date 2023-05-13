@@ -1,31 +1,13 @@
 const { Types } = require("mongoose");
 const { AppError, catchAsync } = require("../utils");
-const { Pet } = require("../models/petModel");
 
-exports.validation = (schema) => {
-  return (req, _, next) => {
-    const { error } = schema.validate(req.body);
-    if (error) {
-      return next(new AppError(400, error.message));
-    }
-    next();
-  };
-};
+exports.checkIsValidId = catchAsync(async (req, res, next) => {
+  const { id: petId } = req.params;
 
-exports.checkPetId = catchAsync(async (req, res, next) => {
-  const { petId: contactId } = req.params;
-  const { _id: userId } = req.user;
-
-  const idIsValid = Types.ObjectId.isValid(contactId);
+  const idIsValid = Types.ObjectId.isValid(petId);
 
   if (!idIsValid) {
     return next(new AppError(404, "Not found"));
-  }
-
-  const petExists = await Pet.exists({ _id: contactId, owner: userId });
-
-  if (!petExists) {
-    return next(new AppError(404, "Not found!!!"));
   }
 
   next();

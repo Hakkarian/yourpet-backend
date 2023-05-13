@@ -4,6 +4,7 @@ const petsRouter = express.Router();
 const { userMiddlewares, petsMiddlewares } = require("../middlewares");
 const { petsController } = require("../controllers");
 const { petJoiSchema } = require("../models/petModel");
+const { validateBody, uploadCloud } = require("../helpers");
 
 petsRouter.use(userMiddlewares.protectRoute);
 
@@ -12,15 +13,12 @@ petsRouter.route("/").get(petsController.getAllPets);
 petsRouter
   .route("/")
   .post(
-    [
-      userMiddlewares.uploadCloud.single("photo"),
-      petsMiddlewares.validation(petJoiSchema),
-    ],
+    [uploadCloud.single("photo"), validateBody(petJoiSchema)],
     petsController.addPet
   );
 
 petsRouter
   .route("/:petId")
-  .delete(petsMiddlewares.checkPetId, petsController.removePet);
+  .delete(petsMiddlewares.checkIsValidId, petsController.removePet);
 
 module.exports = petsRouter;

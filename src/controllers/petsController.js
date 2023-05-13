@@ -4,8 +4,7 @@ const cloudinary = require("cloudinary").v2;
 
 exports.getAllPets = catchAsync(async (req, res, next) => {
   const { _id: userId } = req.user;
-  let { page, limit } = req.query;
-  console.log(userId);
+  let { page = 1, limit = 20 } = req.query;
 
   page = +page;
   limit = +limit;
@@ -43,9 +42,9 @@ exports.addPet = catchAsync(async (req, res, next) => {
     });
   }
 
-  const newContact = await petsService.addPet(body, userId);
+  const newPet = await petsService.addPet(body, userId);
 
-  res.status(201).json({ newContact });
+  res.status(201).json({ newPet });
 });
 
 exports.removePet = catchAsync(async (req, res, next) => {

@@ -1,4 +1,4 @@
-const regExp = require("./RegExp");
+const regExp = require("./regExp");
 
 module.exports = {
   regExp,

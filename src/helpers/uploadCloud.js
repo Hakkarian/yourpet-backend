@@ -1,7 +1,7 @@
 const cloudinary = require("cloudinary").v2;
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const multer = require("multer");
-const { AppError } = require("../utils");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const { AppError } = require("../utils/appError");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -12,13 +12,13 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   folder: "avatars",
-  allowedFormats: ["jpg", "png", "jpeg"],
+  allowedFormats: ["jpg", "png", "gif", "jpeg"],
   filename: (req, file, cb) => {
     cb(null, file.originalname);
   },
 });
 
-const fileFilter = async (req, file, cb) => {
+const fileFilter = (req, file, cb) => {
   file.mimetype.startsWith("image")
     ? cb(null, true)
     : cb(new AppError(400, "Downloaded file must be image type"), false);
@@ -30,4 +30,4 @@ const uploadCloud = multer({
   limits: { fileSize: 3 * 1024 * 1024 },
 });
 
-module.require = { uploadCloud };
+module.exports = uploadCloud;
