@@ -41,6 +41,7 @@ const noticeSchema = new Schema(
     },
     location: {
       type: String,
+      required: [true, "Location is required"],
       min: 2,
       max: 36,
     },
