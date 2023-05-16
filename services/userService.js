@@ -23,7 +23,7 @@ exports.login = async (body) => {
     }
 
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
+      expiresIn: '30d',
     });
 
     user.token = token;
