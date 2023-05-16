@@ -1,6 +1,6 @@
 const { User } = require("../models");
-// const { signToken } = require("../utils");
-const jwt = require("jsonwebtoken");
+
+const { signToken } = require("../utils");
 
 exports.register = async (body) => {
   try {
@@ -18,13 +18,8 @@ exports.login = async (body) => {
     const user = await User.findOne({ email });
     console.log('user', user)
 
-    const payload = {
-      id: user._id
-    }
 
-    const token = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: '30d',
-    });
+    const token = signToken(user._id);
 
     user.token = token;
 
