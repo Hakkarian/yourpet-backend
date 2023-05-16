@@ -1,5 +1,5 @@
 const { User } = require("../models");
-const { signToken } = require("../utils");
+// const { signToken } = require("../utils");
 
 exports.register = async (body) => {
   try {
@@ -17,10 +17,10 @@ exports.login = async (body) => {
     const user = await User.findOne({ email });
     console.log('user', user)
 
-    const token = signToken(user._id);
-    console.log('token', token)
-    user.token = token;
-    console.log('user.token', user.token)
+    // const token = signToken(user._id);
+    // console.log('token', token)
+    // user.token = token;
+    // console.log('user.token', user.token)
     await user.save();
     console.log('result user', user)
     return user;
