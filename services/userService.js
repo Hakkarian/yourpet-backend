@@ -1,5 +1,6 @@
 const { User } = require("../models");
 // const { signToken } = require("../utils");
+const jwt = require("jsonwebtoken");
 
 exports.register = async (body) => {
   try {
@@ -17,10 +18,11 @@ exports.login = async (body) => {
     const user = await User.findOne({ email });
     console.log('user', user)
 
+    const token = jwt.sign(user._id, process.env.JWT_SECRET, {expiresIn: "30d"})
     // const token = signToken(user._id);
-    // console.log('token', token)
-    // user.token = token;
-    // console.log('user.token', user.token)
+    console.log('token', token)
+    user.token = token;
+    console.log('user.token', user.token)
     await user.save();
     console.log('result user', user)
     return user;
