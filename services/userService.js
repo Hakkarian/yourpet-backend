@@ -18,19 +18,18 @@ exports.login = async (body) => {
     const user = await User.findOne({ email });
     console.log('user', user)
 
-    console.log("key", process.env.JWT_SECRET)
-
     const payload = {
       id: user._id
     }
 
-    const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: "30d"})
-    // const token = signToken(user._id);
-    console.log('token', token)
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    });
+
     user.token = token;
-    console.log('user.token', user.token)
+
     await user.save();
-    console.log('result user', user)
+
     return user;
   } catch (error) {
     console.log(error);
