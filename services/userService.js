@@ -13,17 +13,16 @@ exports.register = async (body) => {
 
 exports.login = async (body) => {
   try {
-    console.log('body before', body)
     const { email } = body;
-    console.log('email', email, 'body', body)
     const user = await User.findOne({ email });
     console.log('user', user)
 
     const token = signToken(user._id);
-
+    console.log('token', token)
     user.token = token;
+    console.log('user.token', user.token)
     await user.save();
-
+    console.log('result user', user)
     return user;
   } catch (error) {
     console.log(error);
