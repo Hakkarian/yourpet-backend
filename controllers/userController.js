@@ -17,10 +17,10 @@ exports.loginUser = catchAsync(async (req, res, next) => {
   const { email, _id: userId, token } = await userService.login(req.body);
 
   res.status(200).json({
+    token,
     user: {
       email,
       userId,
-      token,
     },
   });
 });
