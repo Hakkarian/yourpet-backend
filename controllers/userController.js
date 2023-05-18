@@ -56,7 +56,7 @@ exports.currentUser = catchAsync(async (req, res, next) => {
 });
 
 exports.updateUserInfo = catchAsync(async (req, res, next) => {
-  const { _id: userId } = req.user;
+  const { _id: userId, token } = req.user;
   const { body } = req;
 
   if (req.file) {
@@ -76,8 +76,9 @@ exports.updateUserInfo = catchAsync(async (req, res, next) => {
   }
 
   const user = await userService.updateUserInfo(userId, body);
-
+  console.log(user)
   res.status(200).json({
     user,
+    token
   });
 });

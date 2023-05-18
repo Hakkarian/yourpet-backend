@@ -27,3 +27,17 @@ exports.loginValidator = (data) => {
 
   return schema.validate(data);
 };
+
+exports.updateUserInfoValidator = (data) => {
+  const schema = Joi.object({
+    name: Joi.string(),
+    email: Joi.string().email({
+      tlds: { allow: false },
+    }),
+    phone: Joi.string().regex(regExp.PHONE_REGEX).allow(null, ""),
+    city: Joi.string().allow(null, "").regex(regExp.LOCATION),
+    birthday: Joi.string(),
+  });
+
+  return schema.validate(data);
+};
