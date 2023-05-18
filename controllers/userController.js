@@ -50,8 +50,8 @@ exports.currentUser = catchAsync(async (req, res, next) => {
       birthday,
       city,
       userId,
-      token,
     },
+    token
   });
 });
 
