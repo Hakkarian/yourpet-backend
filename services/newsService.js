@@ -1,7 +1,17 @@
 const { News } = require("../models");
 
+exports.getNews = async ({ skip = 0, limit = 6 }) => {
+  try {
+    const total = await News.find().count();
+    const news = await News.find().skip(skip).limit(limit);
 
-exports.getNews = async ({ search }, { skip = 0, limit = 6 }) => {
+    return { news, total };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.getNewsByTitle = async ({ search }, { skip = 0, limit = 6 }) => {
   try {
     const total = await News.find({
       title: { $regex: new RegExp(search, "i") },
