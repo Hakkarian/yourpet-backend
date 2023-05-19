@@ -204,11 +204,6 @@
         "requestBody": {
           "description": "Update user object",
           "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateUserRequest"
-              }
-            },
             "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/UpdateUserImgRequest"
@@ -1021,10 +1016,14 @@
           }
         }
       },
-
-      "UpdateUserRequest": {
+      "UpdateUserImgRequest": {
         "type": "object",
         "properties": {
+          "avatar": {
+            "type": "string",
+            "format": "binary",
+            "description": "User's avatar"
+          },
           "name": {
             "type": "string",
             "description": "User's name",
@@ -1052,17 +1051,6 @@
             "description": "User's city",
             "pattern": "/^[A-Z]{1}[a-z]{1,20}$/",
             "example": "London"
-          }
-        }
-      },
-
-      "UpdateUserImgRequest": {
-        "type": "object",
-        "properties": {
-          "avatar": {
-            "type": "string",
-            "format": "binary",
-            "description": "User's avatar"
           }
         }
       },
