@@ -252,6 +252,24 @@
               "type": "string",
               "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIi..."
             }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Current page",
+            "schema": {
+              "type": "integer",
+              "example": "1"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "limit of notices per page",
+            "schema": {
+              "type": "integer",
+              "example": "2"
+            }
           }
         ],
         "responses": {
@@ -334,6 +352,16 @@
             "schema": {
               "type": "string",
               "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIi..."
+            }
+          },
+          {
+            "in": "path",
+            "name": "petId",
+            "description": "ID of the notice to get",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "645e533389827094770e41f1"
             }
           }
         ],
@@ -1016,7 +1044,7 @@
 
       "CreatePetRequest": {
         "type": "object",
-        "required": ["name", "birthday", "breed"],
+        "required": ["name", "birthday", "breed", "photo"],
         "properties": {
           "photo": {
             "type": "string",

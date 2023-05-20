@@ -9,16 +9,19 @@ exports.getAllPets = catchAsync(async (req, res, next) => {
   page = +page;
   limit = +limit;
 
-  limit = limit > 20 ? 20 : limit;
+  limit = limit > 2 ? 2 : limit;
   const skip = (page - 1) * limit;
 
-  const pets = await petsService.getAllPets(userId, {
+  const { pets, total } = await petsService.getAllPets(userId, {
     skip,
     limit,
   });
 
   res.status(200).json({
     pets,
+    page,
+    per_page: limit,
+    total,
   });
 });
 
@@ -48,9 +51,8 @@ exports.addPet = catchAsync(async (req, res, next) => {
 });
 
 exports.removePet = catchAsync(async (req, res, next) => {
-  const { petId } = req.params;
+  const { id: petId } = req.params;
   const { _id: userId } = req.user;
-  console.log(userId);
 
   await petsService.removePet(petId, userId);
 
