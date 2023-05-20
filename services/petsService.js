@@ -1,6 +1,6 @@
 const { Pet } = require("../models");
 
-exports.getAllPets = async (userId, { skip = 0, limit = 20 }) => {
+exports.getAllPets = async (userId, { skip = 0, limit = 2 }) => {
   try {
     const pets = await Pet.find({ owner: userId })
       .populate("owner", "_id name email")

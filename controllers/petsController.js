@@ -4,7 +4,7 @@ const cloudinary = require("cloudinary").v2;
 
 exports.getAllPets = catchAsync(async (req, res, next) => {
   const { _id: userId } = req.user;
-  let { page = 1, limit = 20 } = req.query;
+  let { page = 1, limit = 2 } = req.query;
 
   page = +page;
   limit = +limit;

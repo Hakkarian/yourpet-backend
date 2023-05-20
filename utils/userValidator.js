@@ -30,7 +30,7 @@ exports.loginValidator = (data) => {
 
 exports.updateUserInfoValidator = (data) => {
   const schema = Joi.object({
-    name: Joi.string(),
+    name: Joi.string().regex(regExp.NAME_REGEX),
     email: Joi.string().email({
       tlds: { allow: false },
     }),
