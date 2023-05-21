@@ -252,6 +252,24 @@
               "type": "string",
               "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIi..."
             }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Current page",
+            "schema": {
+              "type": "integer",
+              "example": "1"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "limit of notices per page",
+            "schema": {
+              "type": "integer",
+              "example": "2"
+            }
           }
         ],
         "responses": {
@@ -334,6 +352,16 @@
             "schema": {
               "type": "string",
               "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIi..."
+            }
+          },
+          {
+            "in": "path",
+            "name": "petId",
+            "description": "ID of the notice to get",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "645e533389827094770e41f1"
             }
           }
         ],
@@ -973,6 +1001,7 @@
           }
         }
       },
+
       "UpdateUserImgRequest": {
         "type": "object",
         "properties": {
@@ -984,6 +1013,7 @@
           "name": {
             "type": "string",
             "description": "User's name",
+            "pattern": "/^[a-zA-Z ]+$/",
             "example": "John"
           },
           "email": {
@@ -1014,7 +1044,7 @@
 
       "CreatePetRequest": {
         "type": "object",
-        "required": ["name", "birthday", "breed"],
+        "required": ["name", "birthday", "breed", "photo"],
         "properties": {
           "photo": {
             "type": "string",
@@ -1026,6 +1056,7 @@
             "description": "Pet's name",
             "minLength": 2,
             "maxLength": 16,
+            "pattern": "/^[a-zA-Z ]+$/",
             "example": "Napoleon"
           },
           "birthday": {
@@ -1039,6 +1070,7 @@
             "description": "Pet's breed",
             "minLength": 2,
             "maxLength": 16,
+            "pattern": "/^[a-zA-Z ]+$/",
             "example": "buldog"
           },
           "comments": {
@@ -1089,6 +1121,7 @@
             "description": "Pet's name",
             "minLength": 2,
             "maxLength": 16,
+            "pattern": "/^[a-zA-Z ]+$/",
             "example": "Napoleon"
           },
           "birthday": {
@@ -1102,6 +1135,7 @@
             "description": "Pet's breed",
             "minLength": 2,
             "maxLength": 16,
+            "pattern": "/^[a-zA-Z ]+$/",
             "example": "Buldog"
           },
           "location": {
