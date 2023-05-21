@@ -28,6 +28,14 @@ exports.loginValidator = (data) => {
   return schema.validate(data);
 };
 
+// exports.googleValidator = (data) => {
+//   const schema = Joi.object({
+//     email: Joi.string().email({ tids: { allow: true } }).required()
+//   })
+
+//   return schema.validate(data);
+// }
+
 exports.updateUserInfoValidator = (data) => {
   const schema = Joi.object({
     name: Joi.string(),

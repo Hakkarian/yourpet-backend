@@ -25,6 +25,19 @@ exports.loginUser = catchAsync(async (req, res, next) => {
   });
 });
 
+// exports.googleAuth = catchAsync(async (req, res) => {
+//   console.log('userController', req.body);
+//   const { user, token } = await userService.google(req.body);
+//   const { email, sub: userId } = user;
+//   res.status(200).json({
+//     token,
+//     user: {
+//       email,
+//       userId
+//     }
+//   })
+// })
+
 exports.logoutUser = catchAsync(async (req, res, next) => {
   await userService.logout(req.user);
 
@@ -39,6 +52,7 @@ exports.currentUser = catchAsync(async (req, res, next) => {
     birthday,
     city,
     _id: userId,
+    avatar,
     token,
   } = await userService.current(req.user);
 
@@ -50,6 +64,7 @@ exports.currentUser = catchAsync(async (req, res, next) => {
       birthday,
       city,
       userId,
+      avatar
     },
     token
   });

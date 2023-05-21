@@ -31,6 +31,29 @@ exports.login = async (body) => {
   }
 };
 
+// exports.google = async (body) => {
+//   try {
+//     console.log('userService', body);
+//     const { user, token } = body;
+//     console.log('google user', user)
+//     const { email } = user;
+//     console.log('google email', email)
+//     const userFound = await User.findOne({ email });
+
+//     if (!userFound) {
+//       const userCreated = await User.create({ ...user });
+//       return userCreated;
+//     }
+
+//     userFound.token = token;
+//     await userFound.save();
+
+//     return userFound;
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
+
 exports.logout = async (currentUser) => {
   try {
     const user = currentUser;
