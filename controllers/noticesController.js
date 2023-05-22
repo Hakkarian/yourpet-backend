@@ -31,11 +31,20 @@ exports.addNoticeToFavorite = catchAsync(async (req, res, next) => {
   const { _id: userId } = req.user;
   const { id: noticeId } = req.params;
 
-  const notice = await noticesService.addNoticeToFavorite(userId, noticeId);
+  const {category, birthday, title, name, breed, sex, location, comments, price, photo} = await noticesService.addNoticeToFavorite(userId, noticeId);
 
   res.status(200).json({
-    userId: userId,
-    noticeId: notice._id,
+    userId,
+    category,
+    birthday,
+    title,
+    name,
+    breed,
+    sex,
+    location,
+    comments,
+    price,
+    photo,
   });
 });
 
