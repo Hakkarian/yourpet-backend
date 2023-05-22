@@ -34,7 +34,7 @@ exports.addNoticeToFavorite = catchAsync(async (req, res, next) => {
   const {category, birthday, title, name, breed, sex, location, comments, price, photo} = await noticesService.addNoticeToFavorite(userId, noticeId);
 
   res.status(200).json({
-    userId,
+    _id: noticeId,
     category,
     birthday,
     title,
