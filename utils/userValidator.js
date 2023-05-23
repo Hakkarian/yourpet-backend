@@ -38,12 +38,23 @@ exports.loginValidator = (data) => {
 
 exports.updateUserInfoValidator = (data) => {
   const schema = Joi.object({
-    name: Joi.string().regex(regExp.NAME_REGEX),
-    email: Joi.string().email({
-      tlds: { allow: false },
+    name: Joi.string().regex(regExp.NAME_REGEX).messages({
+      "string.pattern.base": "Enter a valid name",
     }),
-    phone: Joi.string().regex(regExp.PHONE_REGEX).allow(null, ""),
-    city: Joi.string().allow(null, "").regex(regExp.LOCATION),
+    email: Joi.string()
+      .email({
+        tlds: { allow: false },
+      })
+      .messages({
+        "string.pattern.base": "Enter a valid email",
+      }),
+    phone: Joi.string().regex(regExp.PHONE_REGEX).allow(null, "").messages({
+      "string.pattern.base":
+        "Enter a valid phone number in a format '+380000000000'",
+    }),
+    city: Joi.string().allow(null, "").regex(regExp.LOCATION).messages({
+      "string.pattern.base": "Enter a valid city name",
+    }),
     birthday: Joi.string(),
   });
 
