@@ -39,7 +39,7 @@ authScheme.pre("save", async function (next) {
   if (this.isNew) {
     const emailHash = crypto.createHash("md5").update(this.email).digest("hex");
 
-    this.avatarURL = `https://www.gravatar.com/avatar/${emailHash}.jpg?d=mp`;
+    this.avatar = `https://www.gravatar.com/avatar/${emailHash}.jpg?d=mp`;
   }
 
   if (!this.isModified("password")) return next();
