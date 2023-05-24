@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const crypto = require("crypto");
+// const crypto = require("crypto");
 const { Schema, model } = require("mongoose");
 
 const authScheme = new Schema({
@@ -37,7 +37,7 @@ const authScheme = new Schema({
 
 authScheme.pre("save", async function (next) {
   if (this.isNew) {
-    const emailHash = crypto.createHash("md5").update(this.email).digest("hex");
+    // const emailHash = crypto.createHash("md5").update(this.email).digest("hex");
 
     // this.avatar = `https://www.gravatar.com/avatar/${emailHash}.jpg?d=mp`;
   }
