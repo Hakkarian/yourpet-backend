@@ -56,6 +56,7 @@ exports.updateUserInfoValidator = (data) => {
       "string.pattern.base": "Enter a valid city name",
     }),
     birthday: Joi.string(),
+    firstLogin: Joi.boolean(),
   });
 
   return schema.validate(data);
