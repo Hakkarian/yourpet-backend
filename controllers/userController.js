@@ -14,13 +14,19 @@ exports.registerUser = catchAsync(async (req, res, next) => {
 });
 
 exports.loginUser = catchAsync(async (req, res, next) => {
-  const { email, _id: userId, token } = await userService.login(req.body);
+  const {
+    email,
+    _id: userId,
+    token,
+    firstLogin,
+  } = await userService.login(req.body);
 
   res.status(200).json({
     token,
     user: {
       email,
       userId,
+      firstLogin,
     },
   });
 });
@@ -54,6 +60,7 @@ exports.currentUser = catchAsync(async (req, res, next) => {
     _id: userId,
     avatar,
     token,
+    firstLogin,
   } = await userService.current(req.user);
 
   res.status(200).json({
@@ -64,9 +71,10 @@ exports.currentUser = catchAsync(async (req, res, next) => {
       birthday,
       city,
       userId,
-      avatar
+      avatar,
+      firstLogin,
     },
-    token
+    token,
   });
 });
 
@@ -91,8 +99,8 @@ exports.updateUserInfo = catchAsync(async (req, res, next) => {
   }
 
   const user = await userService.updateUserInfo(userId, body);
-  console.log(user)
+  console.log(user);
   res.status(200).json({
-    user
+    user,
   });
 });

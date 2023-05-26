@@ -16,8 +16,7 @@ exports.login = async (body) => {
   try {
     const { email } = body;
     const user = await User.findOne({ email });
-    console.log('user', user)
-
+    console.log("user", user);
 
     const token = signToken(user._id);
 

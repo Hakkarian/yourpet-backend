@@ -33,12 +33,15 @@ const authScheme = new Schema({
     type: String,
     default: null,
   },
+  firstLogin: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 authScheme.pre("save", async function (next) {
   if (this.isNew) {
     // const emailHash = crypto.createHash("md5").update(this.email).digest("hex");
-
     // this.avatar = `https://www.gravatar.com/avatar/${emailHash}.jpg?d=mp`;
   }
 
