@@ -91,7 +91,6 @@ exports.updateUserInfo = catchAsync(async (req, res, next) => {
   }
 
   const user = await userService.updateUserInfo(userId, body);
-  console.log(user)
   res.status(200).json({
     user
   });
