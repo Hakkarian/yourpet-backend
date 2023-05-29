@@ -29,6 +29,7 @@
     "dotenv": "^16.0.3",
     "express": "4.17.1",
     "fs-extra": "^11.1.1",
+    "google-auth-library": "^8.8.0",
     "gravatar": "^1.8.2",
     "jimp": "^0.22.7",
     "joi": "^17.8.4",
