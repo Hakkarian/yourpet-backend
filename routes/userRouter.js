@@ -13,9 +13,9 @@ userRouter
   .route("/auth/login")
   .post(userMiddlewares.checkUserLogin, userController.loginUser);
 
-// userRouter
-//   .route('/auth/google')
-//   .post(userController.googleAuth);
+userRouter
+  .route('/auth/google')
+  .post(userController.googleAuth);
 
 userRouter
   .route("/user/logout")
