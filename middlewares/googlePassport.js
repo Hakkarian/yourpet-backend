@@ -11,7 +11,7 @@ const { signToken } = require('../utils');
 const googleParams = {
   clientID: googleClientId,
   clientSecret: googleClientSecret,
-  callbackURL: "http://localhost:3030/api/google/callback",
+  callbackURL: "https://barkend.onrender.com/api/google/callback",
   passReqToCallback: true,
 };
 
