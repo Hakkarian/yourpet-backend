@@ -19,6 +19,11 @@ exports.checkUserRegister = catchAsync(async (req, res, next) => {
   next();
 });
 
+exports.isLoggedIn = (req, res, next) => {
+  req.user ? next() : res.sendStatus(401);
+};
+
+
 exports.checkUserLogin = catchAsync(async (req, res, next) => {
   const { error, value } = userValidator.loginValidator(req.body);
 
@@ -89,11 +94,15 @@ exports.checkCurrentUser = catchAsync(async (req, res, next) => {
     req.headers.authorization?.startsWith("Bearer") &&
     req.headers.authorization.split(" ")[1];
 
-  if (!token) return next(new AppError(401, "Not authorized"));
+  if (!token) {
+    return next(new AppError(401, "Not authorized"));
+  } 
 
   const currentUser = await User.findOne({ token });
 
-  if (!currentUser) return next(new AppError(401, "Not authorized"));
+  if (!currentUser) {
+    return next(new AppError(401, "Not authorized"));
+  }
 
   req.user = currentUser;
 
@@ -111,6 +120,7 @@ exports.checkUserLogout = catchAsync(async (req, res, next) => {
 
   try {
     decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    console.log('middleware decoded token', decodedToken)
   } catch (err) {
     console.log(err.message);
 
@@ -118,6 +128,8 @@ exports.checkUserLogout = catchAsync(async (req, res, next) => {
   }
 
   const currentUser = await User.findOne({ _id: decodedToken.id, token });
+
+  console.log('current user logout', currentUser);
 
   if (!currentUser) return next(new AppError(401, "Not authorized"));
 

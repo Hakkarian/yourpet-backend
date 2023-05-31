@@ -4,6 +4,7 @@ const userRouter = express.Router();
 const { userMiddlewares } = require("../middlewares");
 const { userController } = require("../controllers");
 const { uploadCloud } = require("../helpers");
+const { googlePassport } = require('../middlewares');
 
 userRouter
   .route("/auth/register")
@@ -15,7 +16,11 @@ userRouter
 
 userRouter
   .route('/auth/google')
-  .post(userController.googleAuth);
+  .get(googlePassport.authenticate('google', { scope: ['email', 'profile'] }));
+  
+userRouter
+  .route('/google/callback')
+  .get(googlePassport.authenticate('google', {session: false}), userController.googleAuth)
 
 userRouter
   .route("/user/logout")

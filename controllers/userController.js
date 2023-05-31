@@ -1,12 +1,8 @@
 const { catchAsync } = require("../utils");
 const { userService } = require("../services");
-const { OAuth2Client } = require('google-auth-library');
-const { User } = require("../models");
 const cloudinary = require("cloudinary").v2;
 
-const googleClient = new OAuth2Client({
-  clientId: process.env.GOOGLE_CLIENT_ID
-})
+// const clientId = process.env.GOOGLE_CLIENT_ID;
 
 exports.registerUser = catchAsync(async (req, res, next) => {
   const { email, _id: userId } = await userService.register(req.body);
@@ -32,23 +28,10 @@ exports.loginUser = catchAsync(async (req, res, next) => {
 });
 
 exports.googleAuth = catchAsync(async (req, res) => {
-  const { token } = req.body;
-  const ticket = googleClient.verifyIdToken({
-    idToken: token,
-    audient: `${process.env.GOOGLE_CLIENT_ID}`
-  })
-  const payload = ticket.getPayload();
-  console.log(payload)
+  const { _id: userId, email, token, name, avatar } = req.user;
+  console.log('google controller avatar', req.user);
 
-  let user = await User.findOne({ email: payload?.email });
-  if (!user) {
-    user = new User({
-      email: payload?.email,
-    })
-  }
-  await user.save();
-
-  res.json({user, token})
+  res.redirect(`http://localhost:3000?token=${token}&email=${email}&userId=${userId}&name=${name}&avatar=${avatar}`)
 })
 
 
