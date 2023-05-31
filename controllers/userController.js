@@ -31,7 +31,9 @@ exports.googleAuth = catchAsync(async (req, res) => {
   const { _id: userId, email, token, name, avatar } = req.user;
   console.log('google controller avatar', req.user);
 
-  res.redirect(`http://localhost:3000?token=${token}&email=${email}&userId=${userId}&name=${name}&avatar=${avatar}`)
+  res.redirect(
+    `https://yourpet-frontend-peach.vercel.app?token=${token}&email=${email}&userId=${userId}&name=${name}&avatar=${avatar}`
+  );
 })
 
 
