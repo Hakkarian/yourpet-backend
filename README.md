@@ -37,7 +37,7 @@ Implemented saving of overall information after reloading the page.
 
 ## Contributing
 
-Contributors - Solomakha Vladislav ...
+Contributors - Solomakha Vladislav, Olena Bondar, Mariia Savchyn ...
 
 
 
