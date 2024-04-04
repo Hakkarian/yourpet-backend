@@ -3,6 +3,7 @@ const { userService } = require("../services");
 const cloudinary = require("cloudinary").v2;
 
 // const clientId = process.env.GOOGLE_CLIENT_ID;
+const reactAppUrl = process.env.REACT_APP_URL;
 
 exports.registerUser = catchAsync(async (req, res, next) => {
   const { email, _id: userId } = await userService.register(req.body);
@@ -32,7 +33,7 @@ exports.googleAuth = catchAsync(async (req, res) => {
   console.log('google controller avatar', req.user);
 
   res.redirect(
-    `https://yourpet-frontend-peach.vercel.app?token=${token}&email=${email}&userId=${userId}&name=${name}&avatar=${avatar}`
+    `${reactAppUrl}?token=${token}&email=${email}&userId=${userId}&name=${name}&avatar=${avatar}`
   );
 })
 
