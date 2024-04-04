@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const googleClientId = process.env.GOOGLE_CLIENT_ID;
 const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
+const reactAppApiUrl = process.env.REACT_APP_API_URL;
 
 const { Strategy } = require("passport-google-oauth2");
 const { User } = require('../models');
@@ -11,7 +12,7 @@ const { signToken } = require('../utils');
 const googleParams = {
   clientID: googleClientId,
   clientSecret: googleClientSecret,
-  callbackURL: "https://barkend.onrender.com/api/google/callback",
+  callbackURL: `${reactAppApiUrl}/api/google/callback`,
   passReqToCallback: true,
 };
 
